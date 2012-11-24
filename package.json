@@ -1,0 +1,11 @@
+{ "name": "pasta"
+, "version": "0.0.1"
+, "main": "pasta.js"
+, "scripts": { "test": "./node_modules/.bin/tap ./t" }
+, "devDependencies": { "tap": "*" }
+, "engines": { "node": ">0.6" }
+, "repository":
+  { "type": "git"
+  , "url": "git://github.com/nrn/pasta.git"
+  }
+}
