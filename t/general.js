@@ -1,5 +1,5 @@
 var p = require('../pasta')()
-  , test = require('tap').test
+  , test = require('tape')
 
 test('General', function (t) {
   var obj =
@@ -16,7 +16,7 @@ test('General', function (t) {
 
   t.plan(10)
 
-  t.type(p.log(1, 2, 3), 'undefined', 'Log does not throw')
+  t.doesNotThrow(p.log, 'Log does not throw')
 
   t.equal(p.d('asdf'), 'asdf', 'Ident function')
 
