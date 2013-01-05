@@ -69,10 +69,10 @@ function Pasta (opts) {
 
   function errorHandler (res) {
     var fired = false
-    return function (error) {
+    return function (error, code) {
       if (!fired) {
         fired = true
-        res.statusCode = 500
+        res.statusCode = (code || 500)
         res.end('Server ' + error)
       } else {
         log("Allready fired " + error)
