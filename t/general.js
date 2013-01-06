@@ -14,7 +14,7 @@ test('General', function (t) {
     return a + b
   }
 
-  t.plan(10)
+  t.plan(15)
 
   t.doesNotThrow(p.log, 'Log does not throw')
 
@@ -40,5 +40,12 @@ test('General', function (t) {
   t.equal(arrComped('25asdf'), '5', 'array Composed functions')
 
   t.equal(p.get('foo')(obj), 'bar', 'Get property')
+
+  t.equal([0,1,2,3].reduce(p.op('+')), 6, 'math operators')
+  t.equal(p.op('<=')(1, 2), true, 'equality operators')
+  t.equal(p.op('u+')('6'), 6, 'unary operators')
+  t.equal(p.op('!')(true), false, 'logic operators')
+  t.equal(p.op('')(12), 12, 'identity operator')
+
 
 })

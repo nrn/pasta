@@ -1,24 +1,6 @@
 // pasta.js
 
 function Pasta (opts) {
-  var utils =
-    { log: log
-    , l: log
-    , arrify: arrify
-    , get: get
-    , casify: casify
-    , d: d
-    , comp: comp
-    , one: one
-    , errorHandler: errorHandler
-    , eh: errorHandler
-    , notyet: notyet
-    , jsonCORS: jsonCORS
-    , redirect: redirect
-    , dispatch: dispatch
-    , refuse: refuse
-    }
-
   // GENERAL Functions
   function comp (args) {
     if (!Array.isArray(args)) args = arrify(arguments)
@@ -46,6 +28,42 @@ function Pasta (opts) {
       return val
     }
   }
+
+  function all (fn) {
+    return arrify(arguments).reduce(fn)
+  }
+
+  // Idea taken from Eloquent JavaScript
+  var operators =
+    // Comparison
+    { '==': function (a, b) { return a == b }
+    , '!=': function (a, b) { return a != b }
+    , '===': function (a, b) { return a === b }
+    , '!==': function (a, b) { return a !== b }
+    , '>': function (a, b) { return a > b }
+    , '>=': function (a, b) { return a >= b }
+    , '<': function (a, b) { return a < b }
+    , '<=': function (a, b) { return a <= b }
+    // Math
+    , '+': function (a, b) { return a + b }
+    , '-': function (a, b) { return a - b }
+    , '*': function (a, b) { return a * b }
+    , '/': function (a, b) { return a / b }
+    , '%': function (a, b) { return a % b }
+    // Unary
+    , 'u-': function (a) { return -a }
+    , 'u+': function (a) { return +a }
+    // Turnary
+    , '?:': function (a, b, c) { return a ? b : c }
+    // Logical
+    , '&&': function (a, b) { return a && b }
+    , '||': function (a, b) { return a || b }
+    , '!': function (a) { return !a }
+    // Identity
+    , '': function (a) { return a }
+    }
+
+  var op = casify(operators)
 
   function d (arg) {
     return arg
@@ -117,7 +135,24 @@ function Pasta (opts) {
     }
   }
 
-  return utils
+  return { log: log
+    , l: log
+    , arrify: arrify
+    , get: get
+    , casify: casify
+    , d: d
+    , comp: comp
+    , one: one
+    , op: op
+    , errorHandler: errorHandler
+    , eh: errorHandler
+    , notyet: notyet
+    , jsonCORS: jsonCORS
+    , redirect: redirect
+    , dispatch: dispatch
+    , refuse: refuse
+    }
+
 }
 
 if (module && module.exports) module.exports = Pasta
