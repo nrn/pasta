@@ -1,6 +1,4 @@
 // pasta.js
-Stream = require('stream')
-StringDecoder = require('string_decoder').StringDecoder
 
 function Pasta (opts) {
   // GENERAL Functions
@@ -83,29 +81,6 @@ function Pasta (opts) {
 
   function log () {
     if (console && console.log) console.log(arrify(arguments))
-  }
-
-  function streamToCb (stream, opts) {
-    return function (e, results) {
-      if (e) return stream.emit('error', e)
-      stream.write(results)
-      if (!opts.noend) stream.end()
-    }
-  }
-
-  function cbToStream (cb) {
-    var stream = new Stream
-      , data = ''
-      , decoder = new StringDecoder
-    stream.on('error', cb)
-    stream.on('data', function (chunk) {
-      data += decoder.write(chunk)
-    })
-    stream.on('end', function () {
-      cb(null, data)
-    })
-
-    return stream
   }
 
   // HTTP Functions
