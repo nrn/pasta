@@ -11,17 +11,40 @@ function Pasta (opts) {
     }
   }
 
-  function one (func) {
-    return function (arg) {
-      return func(arg)
+  function partial (fn) {
+    var args = arrify(arguments)
+    args.shift() // remove the function
+    return function () {
+      var innerArgs = arrify(arguments)
+      return fn.apply(null, args.map(function (arg) {
+          if (arg == null) return innerArgs.shift()
+          return arg
+        }).concat(innerArgs)
+      )
     }
   }
+
+  var numOfArgs =
+    { '1': function (fn) { return function (arg) { return fn(arg) } }
+    , '2': function (fn) { return function (a, b) { return fn(a, b) } }
+    , '3': function (fn) { return function (a, b, c) { return fn(a, b, c) } }
+    }
+
+  function limit (num) {
+    return function (fn) {
+      return function () {
+        return fn.apply(null, arrify(arguments).slice(0, num))
+      }
+    }
+  }
+
+  var args = casify(numOfArgs, limit)
 
   function casify (obj, def) {
     return function (cas) {
       var val = obj[cas]
       if (typeof val === 'undefined') {
-        if (typeof def !== 'undefined') val = def
+        if (typeof def !== 'undefined') val = def(cas)
         else if (typeof obj._default !== 'undefined') val = obj._default
         else val = obj['default']
       }
@@ -142,10 +165,10 @@ function Pasta (opts) {
     , casify: casify
     , d: d
     , comp: comp
-    , one: one
+    , one: args(1)
+    , args: args
     , op: op
-    , wrap: wrap
-    , w: wrap
+    , partial: partial
     , errorHandler: errorHandler
     , eh: errorHandler
     , notyet: notyet

@@ -8,13 +8,13 @@ test('General', function (t) {
       , _default: 'blah'
       }
     , caseObj = p.casify(obj)
-    , otherCase = p.casify(obj, 'doh')
+    , otherCase = p.casify(obj, function () {return 'doh'})
 
   function add (a, b) {
     return a + b
   }
 
-  t.plan(15)
+  t.plan(17)
 
   t.doesNotThrow(p.log, 'Log does not throw')
 
@@ -32,6 +32,9 @@ test('General', function (t) {
   t.equal(otherCase('notThere'), 'doh', 'Non-extant explicit default')
 
   t.equal(p.one(add)('a', 'b'), 'aundefined', 'One uses only the first arg')
+  t.equal(p.args(4)(function (a, b, c, d, e) { return e })(1, 2, 3, 4, 5, 6)
+      , undefined
+      , 'Arg limit using default/limit fn')
 
   var argComped = p.comp(JSON.stringify, Math.sqrt, parseInt)
   t.equal(argComped('25asdf'), '5', 'arguments Composed functions')
@@ -47,5 +50,6 @@ test('General', function (t) {
   t.equal(p.op('!')(true), false, 'logic operators')
   t.equal(p.op('')(12), 12, 'identity operator')
 
+  t.equal(p.partial(add, null, 'b')('c'), 'cb','Partial application')
 
 })
