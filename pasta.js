@@ -5,9 +5,9 @@ var genPasta = require('gen-pasta')
 
 function Pasta (opts) {
   var o = { combine: combine }
-    , gp = genPasta()
-    , fp = fnPasta()
-    , hp = httpPasta()
+    , gp = genPasta(opts)
+    , fp = fnPasta(opts)
+    , hp = httpPasta(opts)
 
   function combine (obj, old) {
     Object.keys(obj).forEach(function (key) {
