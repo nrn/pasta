@@ -4,19 +4,11 @@ var genPasta = require('gen-pasta')
   , httpPasta = require('http-pasta')
 
 function Pasta (opts) {
-  var o = { combine: combine }
-    , gp = genPasta(opts)
+  var gp = genPasta(opts)
     , fp = fnPasta(opts)
     , hp = httpPasta(opts)
 
-  function combine (obj, old) {
-    Object.keys(obj).forEach(function (key) {
-      old[key] = obj[key]
-    })
-    return old
-  }
-
-  return [ hp, fp, gp ].reduce(combine, o)
+  return [ hp, fp, gp ].reduce(gp.combine, {})
 
 }
 
