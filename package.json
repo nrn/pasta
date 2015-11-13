@@ -1,17 +1,17 @@
-{ "name": "pasta"
-, "version": "0.0.8"
-, "author": "Nick Niemeir <nick.niemeir@gmail.com> (http://nrn.io)"
-, "main": "pasta.js"
-, "scripts": { "test": "for f in ./t/*.js; do node $f; done" }
-, "dependencies":
-  { "gen-pasta": "*"
-  , "fn-pasta": "*"
-  , "http-pasta": "*"
-  }
-, "devDependencies": { "tape": "*" }
-, "engines": { "node": ">0.6" }
-, "repository":
-  { "type": "git"
-  , "url": "git://github.com/nrn/pasta.git"
+{
+  "name": "pasta",
+  "version": "0.1.0",
+  "author": "Nick Niemeir <nick.niemeir@gmail.com> (http://nrn.io)",
+  "main": "index.js",
+  "scripts": {
+    "test": "for f in ./*/test.js; do node $f; done"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nrn/pasta.git"
+  },
+  "devDependencies": {
+    "tape": "^4.2.2"
   }
 }
