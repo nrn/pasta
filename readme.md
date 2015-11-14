@@ -8,14 +8,16 @@ required out like `var log = require('pasta/log')`. Plain `require('pasta')`
 includes all utilities, and is only intended for interactive use and debugging.
 Tests and documentation live along side each utility.
 
-Some of the utilities I build on and use most commonly are re-exposed from
-pasta, and some of my more generally useful utilities are also published
-under their own names.
+Some of the more generally useful utilities are also published under their
+own names, noted in the list below.
 
 ## Utilities
 
 * [pasta/curry](curry)
 * [pasta/get](get)
+* [pasta/has](has)
 * [pasta/log](log)
 * [pasta/op](op)
+* [pasta/reduce](reduce) "universal-reduce"
+* [pasta/slice](slice)
 

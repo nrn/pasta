@@ -1,6 +1,9 @@
 module.exports = {
   curry: require('./curry'),
   get: require('./get'),
+  has: require('./has'),
   log: require('./log'),
-  op: require('./op')
+  op: require('./op'),
+  reduce: require('./reduce'),
+  slice: require('./slice')
 }

@@ -1,13 +1,12 @@
 {
   "name": "pasta",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Just some tools.",
   "author": "Nick Niemeir <nick.niemeir@gmail.com> (http://nrn.io)",
   "main": "index.js",
   "scripts": {
-    "test": "for f in ./*/test.js; do node $f; done"
+    "test": "tape */test.js"
   },
-  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/nrn/pasta.git"
