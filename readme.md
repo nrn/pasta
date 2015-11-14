@@ -12,3 +12,10 @@ Some of the utilities I build on and use most commonly are re-exposed from
 pasta, and some of my more generally useful utilities are also published
 under their own names.
 
+## Utilities
+
+* [pasta/curry](curry)
+* [pasta/get](get)
+* [pasta/log](log)
+* [pasta/op](op)
+
