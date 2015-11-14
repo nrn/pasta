@@ -13,6 +13,7 @@ own names, noted in the list below.
 
 ## Utilities
 
+* [pasta/combine](combine)
 * [pasta/curry](curry)
 * [pasta/get](get)
 * [pasta/has](has)

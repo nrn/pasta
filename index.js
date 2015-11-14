@@ -1,4 +1,5 @@
 module.exports = {
+  combine: require('./combine'),
   curry: require('./curry'),
   get: require('./get'),
   has: require('./has'),
