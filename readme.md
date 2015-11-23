@@ -14,7 +14,7 @@ own names, noted in the list below.
 ## Utilities
 
 * [pasta/combine](combine)
-* [pasta/copy](copy)
+* [pasta/copy](copy) "universal-copy"
 * [pasta/curry](curry)
 * [pasta/get](get)
 * [pasta/has](has)
