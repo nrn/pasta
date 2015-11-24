@@ -9,18 +9,6 @@ var values = {
 
 var validConstructors = [ Date ]
 
-if (typeof Set === 'function') {
-  validConstructors.push(Set)
-}
-if (typeof Map === 'function') {
-  validConstructors.push(Map)
-}
-if (typeof WeakMap === 'function') {
-  validConstructors.push(WeakMap)
-}
-if (typeof WeakSet === 'function') {
-  validConstructors.push(WeakSet)
-}
 if (typeof Int8Array === 'function') {
   validConstructors.push(Int8Array)
 }
@@ -49,9 +37,13 @@ if (typeof Float64Array === 'function') {
   validConstructors.push(Float64Array)
 }
 
-module.exports = deepCopy
+module.exports = universalCopy
 
-function deepCopy (original) {
+function universalCopy (anything) {
+  return deepCopy(anything, [], [])
+}
+
+function deepCopy (original, seen, copies) {
   var type = typeof original
 
   // Don't need to do anything for values
@@ -60,28 +52,63 @@ function deepCopy (original) {
     return original
   }
 
+  // if this object has already been copied during
+  // this deep copy, use that first copy.
+  var idx = seen.indexOf(original)
+  if (idx !== -1) {
+    return copies[idx]
+  }
+
+  var copy
   if (copyingConstructor(original)) {
-    return new original.constructor(original)
+    copy = new original.constructor(original)
+    seen.push(original)
+    copies.push(copy)
+    return copy
   } else if (shouldSlice(original)) {
-    return original.slice()
+    copy = original.slice()
+    seen.push(original)
+    copies.push(copy)
+    return copy
   } else if (original instanceof RegExp) {
     var flags = []
     if (original.global) flags.push('g')
     if (original.ignoreCase) flags.push('i')
     if (original.multiline) flags.push('m')
-    return new RegExp(original.source, flags.join(''))
+    copy = new RegExp(original.source, flags.join(''))
+    seen.push(original)
+    copies.push(copy)
+    return copy
+  } else if (typeof Set === 'function' && original instanceof Set) {
+    copy = new (original.constructor || Set)
+    seen.push(original)
+    copies.push(copy)
+    original.forEach(function (v) {
+      copy.add(deepCopy(v, seen, copies))
+    })
+    return copy
+  } else if (typeof Map === 'function' && original instanceof Map) {
+    copy = new (original.constructor || Map)
+    seen.push(original)
+    copies.push(copy)
+    original.forEach(function (v, k) {
+      copy.set(deepCopy(k, seen, copies), deepCopy(v, seen, copies))
+    })
+    return copy
   }
 
   // if none of the special cases hit, copy original as a generic object.
-  return objectCopy(original)
+  return objectCopy(original, seen, copies)
 }
 
-function objectCopy (original) {
+function objectCopy (original, seen, copies) {
   var copy = new (original.constructor || Object)
+  seen.push(original)
+  copies.push(copy)
 
   Object.getOwnPropertyNames(original).forEach(function (key) {
     var descriptor = Object.getOwnPropertyDescriptor(original, key)
-    descriptor.value = deepCopy(descriptor.value)
+    descriptor.value = deepCopy(descriptor.value, seen, copies)
     try {
       Object.defineProperty(copy, key, descriptor)
     } catch (e) {
@@ -93,7 +120,7 @@ function objectCopy (original) {
 
   if (typeof Object.getOwnPropertySymbols === 'function') {
     Object.getOwnPropertySymbols(original).forEach(function (sym) {
-      copy[sym] = deepCopy(original[sym])
+      copy[sym] = deepCopy(original[sym], seen, copies)
     })
   }
 

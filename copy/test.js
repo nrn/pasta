@@ -28,6 +28,13 @@ test('deep-copy', function (t) {
   t.same(obj[sym2], copyOfObj[sym2], 'Nested obj by sym same value')
   t.notEqual(obj[sym2], copyOfObj[sym2], 'Nested obj by sym not the same ref')
 
+  var circle1 = {}
+  var circle2 = {}
+  circle1.a = circle2
+  circle2.a = circle1
+  var circle1B = copy(circle1)
+  t.equal(circle1B, circle1B.a.a, 'When encountered multipel times, return same obj')
+
   var errA = new TypeError('foo')
   var errB = copy(errA)
   t.ok(errB instanceof Error, 'err is Error')
@@ -44,23 +51,30 @@ test('deep-copy', function (t) {
   // copying constructors
   var date = new Date(1234567890)
   t.equal(copy(date).getTime(), date.getTime(), 'copy date')
-  var setA = new Set()
-  setA.add('a')
-  setA.add('b')
-  setA.add(1)
-
-  var setB = copy(setA)
-  t.ok(setB.has(1) && setB.has('a') && setB.has('b'), 'set works')
-
-  var mapA = new Map()
-  mapA.set(1, 2)
-  var mapB = copy(mapA)
-  t.equal(mapB.get(1), 2, 'map works')
 
   var typedA = new Int8Array(8)
   var typedB = copy(typedA)
   t.equal(typedB.length, 8, 'Correct length')
   t.notEqual(typedA, typedB, 'Typed arrays not the same obj.')
+
+  // sets and maps
+  var setA = new Set()
+  setA.add('a')
+  setA.add('b')
+  setA.add(1)
+  setA.add(obj)
+
+  var setB = copy(setA)
+  t.ok(setB.has(1) && setB.has('a') && setB.has('b'), 'set works')
+  t.notOk(setB.has(obj), 'Same object not in set')
+
+  var mapA = new Map()
+  mapA.set(1, 2)
+  mapA.set('a', obj)
+  var mapB = copy(mapA)
+  t.equal(mapB.get(1), 2, 'map works')
+  t.same(mapB.get('a'), obj, 'inner object there')
+  t.notEqual(mapB.get('a'), obj, 'inner object coppied')
 
   // slice
   var bufA = new ArrayBuffer(8)
