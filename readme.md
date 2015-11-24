@@ -14,12 +14,12 @@ noted in the list below.
 ## Utilities
 
 * [pasta/combine](combine)
-* [https://github.com/nrn/universal-copy](copy) "universal-copy"
+* [copy](https://github.com/nrn/universal-copy) "universal-copy"
 * [pasta/curry](curry)
 * [pasta/get](get)
 * [pasta/has](has)
 * [pasta/log](log)
 * [pasta/op](op)
-* [https://github.com/nrn/universal-reduce](reduce) "universal-reduce"
+* [reduce](https://github.com/nrn/universal-reduce) "universal-reduce"
 * [pasta/slice](slice)
 
